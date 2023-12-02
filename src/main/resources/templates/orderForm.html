@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+        <img th:src="@{/images/TacoCloud.png}">
+
+    <form method="POST" th:action="@{/orders}" th:object="${tacoOrder}">
+        <h1>Order your taco creations!</h1>
+        <ul th:each="taco:${tacoOrder.tacos}">
+            <li th:text="${taco.name}">taco name</li>
+        </ul>
+        <a th:href="@{design}">Design another taco</a>
+        <h3>Delivery my taco masterpieces</h3>
+        <label for = "deliveryName">Name:</label>
+        <input th:flied="*{deliveryName}" type="text">
+        <br/>
+        <label for="deliveryStreet">Street:</label>
+        <input th:field="*{deliveryStreet}" type="text">
+        <br/>
+        <label for="deliveryCity">City:</label>
+        <input th:field="*{deliveryCity}" type="text">
+        <br/>
+        <label for="deliveryState">State:</label>
+        <input th:field="*{deliveryState}" type="text">
+        <br>
+        <h1>Here is how I'll pay...</h1>
+        <label for="ccNumber">ccNumber</label>
+        <input th:field="*{ccNumber}" type="text">
+        <br>
+        <label for="ccExpiration">ccExpiration</label>
+        <input th:field="*{ccExpiration}" type="text">
+        <br>
+        <label for="ccCVV">ccCVV</label>
+        <input th:field="*{ccCVV}" type="text">
+        <br/>
+        <input type="submit" value="Submit Order"/>
+
+    </form>
+</body>
+</html>
