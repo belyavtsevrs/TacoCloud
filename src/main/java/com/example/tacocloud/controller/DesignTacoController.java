@@ -5,9 +5,11 @@ import com.example.tacocloud.Model.Ingredient;
 import com.example.tacocloud.Model.Ingredient.Type;
 import com.example.tacocloud.Model.Taco;
 import com.example.tacocloud.Model.TacoOrder;
+import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
@@ -51,7 +53,10 @@ public class DesignTacoController {
         return new Taco();
     }
     @PostMapping
-    public String processTaco(Taco taco, @ModelAttribute TacoOrder tacoOrder) {
+    public String processTaco(@Valid Taco taco, Errors errors, @ModelAttribute TacoOrder tacoOrder) {
+        if(errors.hasErrors()){
+            return "design";
+        }
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";
