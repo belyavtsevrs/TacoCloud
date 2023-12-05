@@ -5,8 +5,11 @@ import com.example.tacocloud.Model.Ingredient;
 import com.example.tacocloud.Model.Ingredient.Type;
 import com.example.tacocloud.Model.Taco;
 import com.example.tacocloud.Model.TacoOrder;
+import com.example.tacocloud.Repository.IngredientRepository;
+import com.example.tacocloud.Repository.TacoRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
@@ -21,6 +24,14 @@ import java.util.stream.Collectors;
 @RequestMapping("/design")
 @SessionAttributes("tacoOrder")
 public class DesignTacoController {
+    private final IngredientRepository ingredientRepository;
+    private final TacoRepository tacoRepository;
+
+    @Autowired
+    public DesignTacoController(IngredientRepository ingredientRepository, TacoRepository tacoRepository) {
+        this.ingredientRepository = ingredientRepository;
+        this.tacoRepository = tacoRepository;
+    }
     @ModelAttribute
     public void addIngredientsToModel(Model model){
         List<Ingredient> ingredients = Arrays.asList(
@@ -57,6 +68,7 @@ public class DesignTacoController {
         if(errors.hasErrors()){
             return "design";
         }
+        tacoRepository.save(taco);
         tacoOrder.addTaco(taco);
         log.info("Processing taco: {}", taco);
         return "redirect:/orders/current";

@@ -31,5 +31,6 @@ public class OrderController {
         log.info("Order submitted: {}", order);
         sessionStatus.setComplete();
         return "redirect:/";
+
     }
 }
